@@ -1,9 +1,11 @@
 package com.myrskytin.weatherboot;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.spring.boot.FatJarRouter;
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -33,8 +35,8 @@ public class WeatherBootRoute extends FatJarRouter {
 								.select("td").first().select("div").first()
 								.text().toString();
 
-						JSONObject json = new JSONObject();
-						json.append("temperature", temperature);
+						JsonObject json = Json.createObjectBuilder()
+							     .add("temperature", temperature).build();
 						exchange.getOut().setBody(json);
 						exchange.getOut().setHeader(
 								"CamelHttpCharacterEncoding", "UTF-8");
