@@ -13,7 +13,7 @@ public class WeatherBootRoute extends FatJarRouter {
 	@Override
 	public void configure() {
 
-		from("netty-http://http://0.0.0.0:8181/saa").process(new Processor() {
+		from("netty-http://http://0.0.0.0:8181").process(new Processor() {
 
 			@Override
 			public void process(Exchange exchange) throws Exception {

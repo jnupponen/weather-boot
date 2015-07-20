@@ -1,2 +1,5 @@
 spring.main.sources: com.myrskytin.weatherboot.WeatherBootRoute
 
+server:
+    port: 8180
+
