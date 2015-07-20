@@ -1,17 +1,2 @@
-server:
-    port: 8181
-
----
-
-spring:
-    profiles: heroku
-
-server:
-    port: ${PORT}
-
-endpoints:
-    enabled: false
-    health.enabled: true
-    info.enabled: true
-
+spring.main.sources: com.myrskytin.weatherboot.WeatherBootRoute
 
