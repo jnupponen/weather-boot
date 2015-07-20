@@ -8,6 +8,8 @@ import org.apache.camel.Processor;
 import org.apache.camel.spring.boot.FatJarRouter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.rendersnake.HtmlAttributes;
+import org.rendersnake.HtmlCanvas;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
@@ -34,14 +36,20 @@ public class WeatherBootRoute extends FatJarRouter {
 								.select("tr.meteogram-temperatures").first()
 								.select("td").first().select("div").first()
 								.text().toString();
+						
+						HtmlCanvas html = new HtmlCanvas();
+						html.title().content("Lämpötila Tampereella")._title()
+						.meta(new HtmlAttributes().add("name", "description").content(temperature));
 
-						JsonObject json = Json.createObjectBuilder()
-							     .add("temperature", temperature).build();
-						exchange.getOut().setBody(json);
+
+//						
+//						JsonObject json = Json.createObjectBuilder()
+//							     .add("temperature", temperature).build();
+						exchange.getOut().setBody(html.toHtml());
 						exchange.getOut().setHeader(
 								"CamelHttpCharacterEncoding", "UTF-8");
 						exchange.getOut().setHeader("Content-Type",
-								"application/json; charset=UTF-8");
+								"text/html; charset=UTF-8");
 
 					}
 				}).to("log:temperature");
