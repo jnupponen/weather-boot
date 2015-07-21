@@ -38,9 +38,7 @@ public class WeatherBootRoute extends FatJarRouter {
 								.text().toString();
 						
 						String html = "<html><head><meta name=\"description\" content=\""+temperature+"\"/></head><body>"+temperature+"</body></html>"; 
-//						
-//						JsonObject json = Json.createObjectBuilder()
-//							     .add("temperature", temperature).build();
+						
 						exchange.getOut().setBody(html);
 						exchange.getOut().setHeader(
 								"CamelHttpCharacterEncoding", "UTF-8");
