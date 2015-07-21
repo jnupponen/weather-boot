@@ -37,15 +37,11 @@ public class WeatherBootRoute extends FatJarRouter {
 								.select("td").first().select("div").first()
 								.text().toString();
 						
-						HtmlCanvas html = new HtmlCanvas();
-						html.title().content("Lämpötila Tampereella")._title()
-						.meta(new HtmlAttributes().add("name", "description").content(temperature));
-
-
+						String html = "<html><head><meta name=\"description\" content=\""+temperature+"\"/></head><body>"+temperature+"</body></html>"; 
 //						
 //						JsonObject json = Json.createObjectBuilder()
 //							     .add("temperature", temperature).build();
-						exchange.getOut().setBody(html.toHtml());
+						exchange.getOut().setBody(html);
 						exchange.getOut().setHeader(
 								"CamelHttpCharacterEncoding", "UTF-8");
 						exchange.getOut().setHeader("Content-Type",
