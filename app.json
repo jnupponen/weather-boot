@@ -1,0 +1,23 @@
+{
+  "name": "Weather Boot",
+  "description": "Gets weather temperature information and posts it to Slack.",
+  "repository": "https://github.com/jnupponen/weather-boot",
+  "keywords": [
+    "spring-boot",
+    "slack"
+  ],
+  "env": {
+    "WEATHER_BOOT_NAME": {
+      "description": "The name that will appear in Slack."
+    },
+    "WEATHER_BOOT_SOURCE": {
+      "description": "The web page where temperature information is extracted."
+    },
+    "WEATHER_BOOT_IMAGE": {
+      "description": "The image that will appear in Slack."
+    },
+    "WEATHER_BOOT_TARGET": {
+      "description": "Slack incoming web hook URL."
+    }
+  }
+}
