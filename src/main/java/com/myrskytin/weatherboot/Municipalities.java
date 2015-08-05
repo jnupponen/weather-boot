@@ -334,6 +334,6 @@ public class Municipalities {
 		return result;
 	}
 	public static String toSimpleName(String name) {
-		return name.toLowerCase().replace("å", "a").replace("ö", "o").replace("ä", "a");
+		return name.toLowerCase();
 	}
 }
