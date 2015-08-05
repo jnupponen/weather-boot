@@ -6,15 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.camel.Exchange;
-import org.apache.camel.ProducerTemplate;
 import org.apache.camel.spring.boot.FatJarRouter;
 import org.apache.camel.util.URISupport;
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.net.URLCodec;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.apache.camel.Exchange;
-import org.apache.camel.spring.boot.FatJarRouter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -55,6 +52,7 @@ public class WeatherBootRoute extends FatJarRouter {
 				String decoded = new String(array, "UTF-8");
 				
 				Map<String, Object> data = URISupport.parseQuery(decoded);
+				LOG.info("Decoded:"+data.toString());
 				String name = checkName(data);
 				LOG.info("Name: "+name);
 				exchange.getOut().setHeader("municipality", name);
@@ -98,11 +96,20 @@ public class WeatherBootRoute extends FatJarRouter {
 	
 	private String checkName(Map<String, Object> data) {
 		if(data.containsKey("text")) {
+			URLCodec codec = new URLCodec();
+
 			String value = (String) data.get("text");
 			for(String word : Arrays.asList(value.split(" "))) {
-				if(MUNICIPALITIES.contains(Municipalities.toSimpleName(word))) {
-					return Municipalities.toSimpleName(word);
+				try {
+					String decoded = codec.decode(URISupport.sanitizeUri(word));
+
+					if(MUNICIPALITIES.contains(Municipalities.toSimpleName(decoded))) {
+						return Municipalities.toSimpleName(decoded);
+					}
+				} catch (DecoderException e) {
+					LOG.error("Some crap in the word. Exception was: "+e);
 				}
+				
 			}
 		}
 		return "tampere";
