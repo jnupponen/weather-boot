@@ -80,18 +80,7 @@ public class WeatherBootRoute extends FatJarRouter {
 					exchange.getOut().setHeader(Exchange.HTTP_CHARACTER_ENCODING, "UTF-8");
 				})
 			.to("https4://"+slackUrl)
-			.log("Slack responded: [${header." + Exchange.HTTP_RESPONSE_CODE + "}]")
-			.process(
-				exchange -> {
-					String temperature = exchange.getIn().getHeader("temperature", String.class);
-					String html = "<html><head><meta name=\"description\" content=\"" + temperature
-						+ "\"/></head><body>" + temperature + "</body></html>";
-
-					exchange.getOut().setBody(html);
-					exchange.getOut().setHeader("CamelHttpCharacterEncoding", "UTF-8");
-					exchange.getOut().setHeader("Content-Type", "text/html; charset=UTF-8");
-				})
-			.log("Done.");
+			.log("Slack responded: [${header." + Exchange.HTTP_RESPONSE_CODE + "}]");
 	}
 	
 	private String checkName(Map<String, Object> data) {
