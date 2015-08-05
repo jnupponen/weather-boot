@@ -13,6 +13,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.apache.camel.Exchange;
+import org.apache.camel.spring.boot.FatJarRouter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,20 +22,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class WeatherBootRoute extends FatJarRouter {
 	private static final Logger LOG = Logger.getLogger(WeatherBootRoute.class);
-	
+
 	private final String port;
 	private final String getUrl;
 	private final String name;
 	private final String imageUrl;
 	private final String slackUrl;
-	
+
 	private static final List<String> MUNICIPALITIES = Municipalities.get();
 
 	public WeatherBootRoute() {
 
 		this.port = (System.getenv("PORT") != null ? System.getenv("PORT") : "8181");
 		this.name = (System.getenv("WEATHER_BOOT_NAME") != null ? System.getenv("WEATHER_BOOT_NAME") : "WeatherBoot");
-		this.getUrl = (System.getenv("WEATHER_BOOT_SOURCE") != null ? System.getenv("WEATHER_BOOT_SOURCE") : "ilmatieteenlaitos.fi/saa/");
+		this.getUrl = (System.getenv("WEATHER_BOOT_SOURCE") != null ? System.getenv("WEATHER_BOOT_SOURCE") : "localhost/");
+		this.getUrl = (System.getenv("WEATHER_BOOT_SOURCE") != null ? System.getenv("WEATHER_BOOT_SOURCE") : "localhost");
 		this.imageUrl = (System.getenv("WEATHER_BOOT_IMAGE") != null ? System.getenv("WEATHER_BOOT_IMAGE") : "");
 		this.slackUrl = (System.getenv("WEATHER_BOOT_TARGET") != null ? System.getenv("WEATHER_BOOT_TARGET") : "localhost");
 	}
@@ -41,7 +44,6 @@ public class WeatherBootRoute extends FatJarRouter {
 	@Override
 	public void configure() {
 
-//		getContext().setTracing(true);
 		from("netty-http://http://0.0.0.0:" + port + "/weatherhook")
 			.routeId("weather-hook-route")
 			.wireTap("direct:tap")
