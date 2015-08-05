@@ -36,7 +36,6 @@ public class WeatherBootRoute extends FatJarRouter {
 		this.port = (System.getenv("PORT") != null ? System.getenv("PORT") : "8181");
 		this.name = (System.getenv("WEATHER_BOOT_NAME") != null ? System.getenv("WEATHER_BOOT_NAME") : "WeatherBoot");
 		this.getUrl = (System.getenv("WEATHER_BOOT_SOURCE") != null ? System.getenv("WEATHER_BOOT_SOURCE") : "localhost/");
-		this.getUrl = (System.getenv("WEATHER_BOOT_SOURCE") != null ? System.getenv("WEATHER_BOOT_SOURCE") : "localhost");
 		this.imageUrl = (System.getenv("WEATHER_BOOT_IMAGE") != null ? System.getenv("WEATHER_BOOT_IMAGE") : "");
 		this.slackUrl = (System.getenv("WEATHER_BOOT_TARGET") != null ? System.getenv("WEATHER_BOOT_TARGET") : "localhost");
 	}
